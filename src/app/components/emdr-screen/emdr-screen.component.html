@@ -1,6 +1,13 @@
 <div class="main-container">
+  @if(enabledDistraction()){
     <div 
-      class="ball" 
-      [ngStyle]="{ 'transform': 'translateX(' + ballPosition + 'px)' }">
+      class="distraction" 
+      [ngStyle]="{ 'top': (ballPositionTop - 50) + 'px' }">
+      {{ distraction }}
     </div>
+  }
+  <div 
+    class="ball" 
+    [ngStyle]="{ 'transform': 'translateX(' + ballPosition + 'px)' }">
+  </div>
 </div>  

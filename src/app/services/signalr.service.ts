@@ -3,6 +3,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@micros
 import { Environment } from '../../environment/environment';
 import { EmdrService } from './emdr.service';
 import { EmdrState } from '../models/emdr-state.model';
+import { DistractService } from './distract.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class SignalRService {
 
   speed: number = 5;
 
-  constructor(private emdrService: EmdrService) {}
+  constructor(private emdrService: EmdrService, private distractService: DistractService) {}
 
   connect(): void {
     if (this.hubConnection?.state === HubConnectionState.Connected) {
@@ -65,8 +66,17 @@ export class SignalRService {
         }
       }
     });
+
     this.hubConnection.on('RecieveSpeed', (speed: number) => {
       this.emdrService.setSpeed(speed);
+    });
+
+    this.hubConnection.on('RecieveToggleSound', (enableSound: boolean) => {
+      this.emdrService.enableSound(enableSound);
+    });
+
+    this.hubConnection.on('RecieveToggleDistraction', (enableDistraction: boolean) => {
+      this.distractService.enableDistraction(enableDistraction);
     });
   }
   
