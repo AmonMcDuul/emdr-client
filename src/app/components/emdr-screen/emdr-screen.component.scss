@@ -1,32 +1,115 @@
-.main-container {
-    background-color: black;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+$primary: #4a6fa5;
+$secondary: #166088;
+$accent: #4fc3f7;
+$background: #0a192f;
+$text: #e6f1ff;
+
+.emdr-client {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, $background 0%, darken($background, 5%) 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.emdr-visualization {
+  flex: 1;
+  position: relative;
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
   
-.ball {
+  .ball {
     width: 30px;
     height: 30px;
-    background-color: white;
+    background: radial-gradient(circle at 30% 30%, white, $accent);
     border-radius: 50%;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    box-shadow: 0 0 15px rgba($accent, 0.7);
+    z-index: 10;
+    transition: transform 0.05s linear;
+  }
+  
+  .center-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: rgba($text, 0.1);
+    transform: translateX(-50%);
+  }
+  
+  .distraction {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    
+    &.math {
+      color: $text;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 15px 25px;
+      background: rgba($primary, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeInOut 8s ease-in-out infinite;
+    }
+    
+    &.dots {
+      width: 10px;
+      height: 10px;
+      background: rgba($text, 0.6);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+    }
+  }
 }
 
-.distraction {
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.548);
-  border-radius: 5px;
-  width: 10%;
-  height: auto;
-  text-align: center;
-  padding: 10px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 28px;
+.status-bar {
+  padding: 12px 20px;
+  background: rgba($background, 0.7);
+  display: flex;
+  justify-content: space-between;
+  color: rgba($text, 0.8);
+  font-size: 0.9rem;
+  
+  .speed-indicator, .connection-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    i {
+      font-size: 0.8rem;
+    }
+  }
+  
+  .connection-status {
+    .connected {
+      color: #4caf50;
+    }
+    
+    .disconnected {
+      color: #f44336;
+    }
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+  20%, 80% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(random(200) - 100 + px, random(200) - 100 + px) rotate(360deg); }
 }

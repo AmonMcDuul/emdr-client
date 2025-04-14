@@ -1,37 +1,52 @@
 import { Injectable, signal } from '@angular/core';
 
+interface MathOperation {
+  symbol: string;
+  fn: (a: number, b: number) => number;
+  generate?: () => { a: number; b: number };
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class DistractService {
-
   private enabledDistraction = signal(false);
-
   public readonly enabledDistraction$ = this.enabledDistraction.asReadonly();
+
+  private operations: MathOperation[] = [
+    { symbol: '+', fn: (a, b) => a + b },
+    { symbol: '-', fn: (a, b) => a - b },
+    { symbol: '×', fn: (a, b) => a * b },
+    { 
+      symbol: '÷', 
+      fn: (a, b) => a / b,
+      generate: () => {
+        const b = this.getRandomNumber(1, 10);
+        const result = this.getRandomNumber(1, 10);
+        return { a: b * result, b };
+      }
+    }
+  ];
+
+  generateQuestion(): string {
+    const op = this.operations[Math.floor(Math.random() * this.operations.length)];
+    
+    // Handle division separately since it has the generate method
+    if (op.symbol === '÷' && op.generate) {
+      const { a, b } = op.generate();
+      return `${a} ${op.symbol} ${b}`;
+    } else {
+      const a = this.getRandomNumber(1, 20);
+      const b = this.getRandomNumber(1, 20);
+      return `${a} ${op.symbol} ${b}`;
+    }
+  }
 
   private getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  private getRandomOperator(): string {
-    const operators = ['+', '-', '*', '/'];
-    return operators[Math.floor(Math.random() * operators.length)];
-  }
-
-  generateQuestion(): string {
-    const num1 = this.getRandomNumber(1, 100); 
-    const num2 = this.getRandomNumber(1, 100); 
-    const operator = this.getRandomOperator();
-
-    if (operator === '/') {
-      const dividend = this.getRandomNumber(10, 99);
-      return `${dividend} / ${num2}`;
-    }
-    return `${num1} ${operator} ${num2}`;
-  }
-
-  enableDistraction(bool: boolean): void {
-    this.enabledDistraction.set(bool);
-    console.log(this.enabledDistraction$)
+  enableDistraction(enable: boolean): void {
+    this.enabledDistraction.set(enable);
   }
 }
