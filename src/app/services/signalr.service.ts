@@ -75,8 +75,8 @@ export class SignalRService {
       this.emdrService.enableSound(enableSound);
     });
 
-    this.hubConnection.on('RecieveToggleDistraction', (enableDistraction: boolean) => {
-      this.distractService.enableDistraction(enableDistraction);
+    this.hubConnection.on('RecieveToggleDistraction', (enableDistraction: boolean, mode: 'math' | 'dots') => {
+      this.distractService.enable(enableDistraction, mode);
     });
   }
   

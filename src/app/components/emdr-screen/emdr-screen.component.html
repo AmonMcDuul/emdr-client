@@ -1,5 +1,4 @@
 <div class="emdr-client">
-  <!-- Visual Container -->
   <div class="emdr-visualization">
     <!-- Ball Element -->
     <div class="ball" 
@@ -7,37 +6,35 @@
     </div>
     
     <!-- Math Distraction -->
-    @if(enabledDistraction!() && distractionType === 'math'){
+    @if(distractService.isEnabled() && distractService.currentMode() === 'math'){
       <div class="distraction math">
-        {{ distractionText }}
+        {{ distractService.question() }}
       </div>
     }
     
-    <!-- Bubble Distraction -->
-    @if(enabledDistraction!() && distractionType === 'bubbles'){
-      @for(bubble of bubbles; track bubble){
-        <div class="bubble" 
+    <!-- Dots Distraction -->
+    @if(distractService.isEnabled() && distractService.currentMode() === 'dots'){
+      @for(dot of distractService.dotDistractions(); track dot){
+        <div class="dot" 
              [ngStyle]="{
-               'width': bubble.size + 'px',
-               'height': bubble.size + 'px',
-               'left': bubble.x + '%',
-               'top': bubble.y + '%',
-               'animation-duration': (10 / bubble.speed) + 's',
-               'animation-delay': bubble.delay + 's'
+               'width': dot.size + 'px',
+               'height': dot.size + 'px',
+               'left': dot.x + '%',
+               'top': dot.y + '%',
+               'animation-duration': (10 / dot.speed) + 's',
+               'animation-delay': dot.delay + 's'
              }">
         </div>
       }
     }
     
-    <!-- Center Guide Line -->
     <div class="center-line"></div>
   </div>
   
-  <!-- Status Bar -->
   <div class="status-bar">
     <div class="speed-indicator">
       <i class="fas fa-tachometer-alt"></i>
-      <span>Speed: {{ speed }}</span>
+      <span>Speed: {{ emdrService._speed }}</span>
     </div>
     <div class="connection-status">
       <i class="fas fa-circle" [ngClass]="{ 'connected': isConnected }"></i>

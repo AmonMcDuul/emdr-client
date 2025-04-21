@@ -58,6 +58,10 @@ export class EmdrService {
   setSpeed(newSpeed: number): void {
     this.speed = newSpeed;
   }
+  
+  get _speed(): number {
+    return this.speed;
+  }
 
   private moveBall(): void {
     this.ballPosition += this.direction * this.speed;

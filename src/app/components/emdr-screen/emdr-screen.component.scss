@@ -46,32 +46,62 @@ $text: #e6f1ff;
     transform: translateX(-50%);
   }
   
-  .distraction {
+  .distraction.math {
+    color: $text;
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 15px 25px;
+    background: rgba($primary, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeInOut 8s ease-in-out infinite;
     position: absolute;
     top: 30%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
+  }
+  
+  .dot {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    animation: floatDot linear infinite;
+    z-index: 1;
     
-    &.math {
-      color: $text;
-      font-size: 2rem;
-      font-weight: 500;
-      text-align: center;
-      padding: 15px 25px;
-      background: rgba($primary, 0.8);
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      animation: fadeInOut 8s ease-in-out infinite;
-    }
-    
-    &.dots {
-      width: 10px;
-      height: 10px;
-      background: rgba($text, 0.6);
+    &:after {
+      content: '';
+      position: absolute;
+      width: 30%;
+      height: 30%;
+      background: rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      animation: float 15s infinite linear;
+      top: 20%;
+      left: 20%;
     }
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+  20%, 80% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes floatDot {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20px);
+    opacity: 0;
   }
 }
 
@@ -93,23 +123,11 @@ $text: #e6f1ff;
     }
   }
   
-  .connection-status {
-    .connected {
-      color: #4caf50;
-    }
-    
-    .disconnected {
-      color: #f44336;
-    }
+  .connected {
+    color: #4caf50;
   }
-}
-
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
-  20%, 80% { opacity: 1; transform: translate(-50%, 0); }
-}
-
-@keyframes float {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(random(200) - 100 + px, random(200) - 100 + px) rotate(360deg); }
+  
+  .disconnected {
+    color: #f44336;
+  }
 }
